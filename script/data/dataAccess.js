@@ -1,39 +1,16 @@
-import { read, utils } from "../../lib/xlsx.mjs";
+async function getData() {
+	const response = await fetch("./resources/MCQ_LanhDao.json");
+	const raw = await response.json();
 
-
-async function readExcelFile(filePath) {
-	// Read the file
-	const response = await fetch(filePath);
-	const bufferData = await response.arrayBuffer();
-	const workbook = read(bufferData);
-
-	// Initialize an object to hold data from all sheets
-	const excelData = {};
-
-	// Iterate over each sheet name
-	workbook.SheetNames.forEach(sheetName => {
-		// Get the worksheet
-		const worksheet = workbook.Sheets[sheetName];
-
-		// Convert the worksheet to JSON
-		const data = utils.sheet_to_json(worksheet);
-
-		// Store the data in the allData object with the sheet name as the key
-		excelData[sheetName] = data;
-	});
-	transformData(excelData);
-}
-
-function transformData(excelData) {
-	const khieuNai = excelData["Khiếu nại"];
-	const phapLenhQLTT = excelData["Pháp lệnh QLTT"];
-	const phongChongThamNhung = excelData["Phòng chống tham nhũng"];
-	const phanToChuc = excelData["Phần tổ chức"];
-	const thanhTra = excelData["Thanh tra"];
-	const thongTuLienQuan = excelData["Thông tư liên quan"];
-	const tiepCongDan = excelData["Tiếp công dân"];
-	const toCao = excelData["Tố cáo"];
-	const xuLyVPHC = excelData["Xử lý VPHC"];
+	const khieuNai = raw["Khiếu nại"];
+	const phapLenhQLTT = raw["Pháp lệnh QLTT"];
+	const phongChongThamNhung = raw["Phòng chống tham nhũng"];
+	const phanToChuc = raw["Phần tổ chức"];
+	const thanhTra = raw["Thanh tra"];
+	const thongTuLienQuan = raw["Thông tư liên quan"];
+	const tiepCongDan = raw["Tiếp công dân"];
+	const toCao = raw["Tố cáo"];
+	const xuLyVPHC = raw["Xử lý VPHC"];
 	data = {
 		tccb: phanToChuc,
 		tckntcd: [...toCao, ...khieuNai, ...tiepCongDan],
@@ -43,8 +20,6 @@ function transformData(excelData) {
 	}
 	console.log(data);
 }
-
-readExcelFile("../../resources/MCQ_LanhDao.xlsx")
 
 // async function getLanhdaoData() {
 // 	const res = await fetch("./resources/lanhdao.json");

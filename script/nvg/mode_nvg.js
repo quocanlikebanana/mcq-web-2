@@ -11,10 +11,6 @@ doiMode_btn.addEventListener("click", () => {
 })
 
 async function Mode_To_Setting() {
-	if (data == null) {
-		alert("Không có dữ liệu câu hỏi");
-		return;
-	}
 	mode_div.classList.add("hide");
 	setting_div.classList.remove("hide");
 	mainTitle_div.textContent = titleText;
@@ -23,6 +19,8 @@ async function Mode_To_Setting() {
 }
 
 async function retrieveData() {
+	await getData();
+
 	// if (mode == Mode.LanhDao) {
 	// 	data = await getData();
 
